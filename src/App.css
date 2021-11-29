@@ -1,38 +1,107 @@
-.App {
-  text-align: center;
+:root {
+  --hue: 180;
+  --saturation: 13%;
+  --lightness: 18%;
+  --alpha: 100%;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
+body {
+  min-height: calc(100vh - 5rem);
+  background-color: hsla(
+    var(--hue),
+    var(--saturation),
+    var(--lightness),
+    var(--alpha)
+  );
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
   display: flex;
-  flex-direction: column;
-  align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  margin-top: 5rem;
 }
 
-.App-link {
-  color: #61dafb;
+main {
+  --lightness: 100%;
+  color: hsla(var(--hue), var(--saturation), var(--lightness), var(--alpha));
+
+  display: grid;
+  grid-gap: 1rem;
+  justify-content: space-between;
+
+  grid-template-areas:
+    "title title title title"
+    "results results results results "
+    "board board moves moves";
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+h1 {
+  text-align: center;
+  margin-bottom: 0.5rem;
+  grid-area: title;
+}
+
+button {
+  padding: 2rem;
+  outline: none;
+  border: 1px solid transparent;
+  cursor: pointer;
+
+  font-size: 2rem;
+  width: 5ch;
+  height: 5ch;
+}
+button:not(:disabled):hover,
+button:not(:disabled):focus {
+  --lightness: 100%;
+  --hue: 60;
+  border: 1px solid
+    hsla(var(--hue), var(--saturation), var(--lightness), var(--alpha));
+  opacity: 0.7;
+}
+
+.squares {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-gap: 0.1em;
+}
+
+.results {
+  display: flex;
+  justify-content: space-around;
+  gap: 8rem;
+  margin-bottom: 1rem;
+  text-transform: capitalize;
+
+  grid-area: results;
+  justify-self: flex-start;
+}
+
+.moves {
+  grid-area: moves;
+  min-width: 10rem;
+}
+
+.moves li {
+  list-style: none;
+  text-transform: capitalize;
+}
+
+li + li {
+  margin-top: 0.5rem;
+}
+
+a {
+  --lightness: 100%;
+  --hue: 60;
+  color: hsla(var(--hue), var(--saturation), var(--lightness), var(--alpha));
+}
+
+a:hover,
+a:focus {
+  opacity: 0.6;
 }
