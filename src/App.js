@@ -25,17 +25,17 @@ const determineWinner = (x, o) => {
 
 function App() {
   const [values, setValues] = useState([]);
-  const [history, setHistory] = useState([]);
+  // const [history, setHistory] = useState([]);
   const [turn, setTurn] = useState("X");
   const [xIndexes, setXindexes] = useState([]);
   const [oIndexes, setOindexes] = useState([]);
   const [winner, setWinner] = useState();
 
   useEffect(() => {
-    if (!values.length) {
+    if (values.length === 0) {
       setValues(Array(9).fill(null));
     }
-  }, []);
+  }, [values.length]);
 
   const onClick = (index) => {
     const vals = values.slice();
@@ -58,7 +58,7 @@ function App() {
     if (!winner && xIndexes.concat(oIndexes).length === 9) {
       setWinner("Draw");
     }
-  }, [xIndexes, oIndexes]);
+  }, [xIndexes, oIndexes, winner]);
 
   const reset = (e) => {
     e.preventDefault();
@@ -78,8 +78,8 @@ function App() {
       .forEach((x) => {
         vals[x] = null;
       });
-    console.log(vals);
-    setHistory(vals);
+    // console.log(vals);
+    // setHistory(vals);
   };
 
   return (
@@ -91,6 +91,7 @@ function App() {
           {winner === "Draw" && "Draw"}
           {!winner ? `Turn ${turn}` : ""}
         </p>
+        {/* eslint-disable-next-line */}
         <a href="" onClick={reset}>
           reset
         </a>
@@ -100,6 +101,7 @@ function App() {
         <p>Moves:</p>
         {oIndexes.map((_, i) => (
           <li key={i}>
+            {/* eslint-disable-next-line */}
             <a
               href=""
               onClick={(e) => travel(e, i)}
