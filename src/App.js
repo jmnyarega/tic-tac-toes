@@ -23,9 +23,15 @@ const determineWinner = (x, o) => {
   }
 };
 
+/*
+ * Bugs
+ * Design Principles
+ * Data Structures
+ * Testing
+ */
+
 function App() {
   const [values, setValues] = useState([]);
-  // const [history, setHistory] = useState([]);
   const [turn, setTurn] = useState("X");
   const [xIndexes, setXindexes] = useState([]);
   const [oIndexes, setOindexes] = useState([]);
@@ -35,7 +41,7 @@ function App() {
     if (values.length === 0) {
       setValues(Array(9).fill(null));
     }
-  }, [values.length]);
+  }, [values]);
 
   const onClick = (index) => {
     const vals = values.slice();
@@ -50,15 +56,12 @@ function App() {
     }
     setValues(vals);
   };
+
   useEffect(() => {
     if (xIndexes.length >= 3 || oIndexes.length >= 3) {
       setWinner(determineWinner(xIndexes, oIndexes));
     }
-
-    if (!winner && xIndexes.concat(oIndexes).length === 9) {
-      setWinner("Draw");
-    }
-  }, [xIndexes, oIndexes, winner]);
+  }, [xIndexes, oIndexes]);
 
   const reset = (e) => {
     e.preventDefault();
@@ -69,46 +72,26 @@ function App() {
     setWinner();
   };
 
-  const travel = (e, i) => {
-    e.preventDefault();
-    let vals = values.slice();
-    oIndexes
-      .slice(i)
-      .concat(xIndexes.slice(i))
-      .forEach((x) => {
-        vals[x] = null;
-      });
-    // console.log(vals);
-    // setHistory(vals);
+  const displayResults = (winner) => {
+    if (winner === "Draw") {
+      return winner;
+    } else if (winner === "X" || winner === "O") {
+      return `Winner is ${winner}`;
+    } else if (!winner && oIndexes.concat(xIndexes).length === 9) {
+      return "Draw";
+    } else return `Turn ${turn}`;
   };
-
   return (
     <main>
       <h1> Tic Tac Toe </h1>
       <div className="results">
-        <p>
-          {winner && winner !== "Draw" ? `Winner is ${winner}` : ""}
-          {winner === "Draw" && "Draw"}
-          {!winner ? `Turn ${turn}` : ""}
-        </p>
+        <p>{displayResults(winner)}</p>
         {/* eslint-disable-next-line */}
         <a href="" onClick={reset}>
           reset
         </a>
       </div>
       <Squares values={values} onClick={onClick} winner={winner} />
-      <ul className="moves">
-        <p>Moves:</p>
-        {oIndexes.map((_, i) => (
-          <li key={i}>
-            {/* eslint-disable-next-line */}
-            <a
-              href=""
-              onClick={(e) => travel(e, i)}
-            >{`got to move ${xIndexes[i]}, ${oIndexes[i]}`}</a>
-          </li>
-        ))}
-      </ul>
     </main>
   );
 }

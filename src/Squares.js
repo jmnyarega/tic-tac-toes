@@ -4,7 +4,7 @@ import Square from "./Square";
 
 const Squares = ({ values, onClick, winner }) => (
   <div className="squares">
-    {values.map((value, i) => (
+    {values?.map((value, i) => (
       <Square
         key={i}
         value={value}
